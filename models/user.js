@@ -17,9 +17,7 @@ const UserSchema = new Schema({
   },
   password: { type: String, required: true, select: false },
   role: { type: String, required: true, enum: roleTypes, default: 'User' },
-}, {
-    timestamps: true,
-  });
+}, { timestamps: true });
 
 UserSchema.pre('save', function (next) {
   this.password = bcrypt.hashSync(this.password, 10);

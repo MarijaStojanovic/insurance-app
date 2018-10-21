@@ -19,6 +19,7 @@ const app = express();
 
 // Application Routes
 const UserRoutes = require('./components/user/userRouter');
+const ContractRoutes = require('./components/contract/contractRouter');
 
 
 app.use(bodyParser.json({ limit: '20mb' }));
@@ -77,6 +78,7 @@ process.on('SIGINT', () => {
 });
 
 app.use('/api/v1', UserRoutes);
+app.use('/api/v1', ContractRoutes);
 
 if (environments.NODE_ENV === 'development') {
   require('./scripts/createDocs');

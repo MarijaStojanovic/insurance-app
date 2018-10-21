@@ -26,7 +26,11 @@ module.exports.permissionAccess = (...roles) => async (req, res, next) => {
       throw new Error(error.NOT_FOUND);
     }
 
-    if (roles.includes('Admin') && user.type === 'Admin') {
+    if (roles.includes('User') && user.role === 'User') {
+      userRoles.push('User');
+    }
+
+    if (roles.includes('Admin') && user.role === 'Admin') {
       userRoles.push('Admin');
     }
 

@@ -7,6 +7,6 @@ const router = express.Router();
 
 router
   .post('/signup', catchAsyncError(UserController.signUp))
-  .post('/signin', catchAsyncError(UserController.signIn))
+  .post('/signin', catchAsyncError(UserController.signIn));
 
 module.exports = router;

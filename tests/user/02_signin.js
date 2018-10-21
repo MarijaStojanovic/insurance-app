@@ -46,7 +46,7 @@ describe('Sign in', () => {
   it('POST /signin Should return', (done) => {
     const body = {
       email: faker.internet.email().toLowerCase(),
-      password: faker.internet.userName(),
+      password: faker.internet.password(),
     };
     addUser({ email: body.email, password: body.password })
       .then(() => {
