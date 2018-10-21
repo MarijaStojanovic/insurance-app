@@ -2,7 +2,6 @@ const { User } = require('../../models');
 const { issueNewToken } = require('../../lib/jwtHandler');
 const bcrypt = require('bcrypt');
 const error = require('../../middlewares/errorHandling/errorConstants');
-const { emailRegExp } = require('../../lib/misc');
 
 /**
  * @api {post} /signup Register User
@@ -11,24 +10,23 @@ const { emailRegExp } = require('../../lib/misc');
  * @apiDescription Register new User
  * @apiGroup User
  *
- * @apiParam {String} email Email
- * @apiParam {String} password Password
- * 
+ * @apiParam (body) {String} email Email
+ * @apiParam (body) {String} password Password
+ *
  * @apiSuccessExample Success-Response:
  HTTP/1.1 200 OK
- {
-  "message": "Successfully signed up",
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmNjNTY1YzkxNWQ1ZDE1ZTYzNzhkYjMiLCJpYXQiOjE1NDAxMTgxMDgsImV4cCI6MTU0MDE2MTMwOH0.b-FZtkhEnDCkyOVl_dO9qHSsDjAj_sb1nK8T8EZOxBU",
-  "results": {
-    "role": "User",
-    "_id": "5bcc565c915d5d15e6378db3",
-    "email": "testuser@mailinator.com",
-    "createdAt": "2018-10-21T10:35:08.081Z",
-    "updatedAt": "2018-10-21T10:35:08.081Z",
-    "__v": 0
+  {
+    "message": "Successfully signed up",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmNjNTY1YzkxNWQ1ZDE1ZTYzNzhkYjMiLCJpYXQiOjE1NDAxMTgxMDgsImV4cCI6MTU0MDE2MTMwOH0.b-FZtkhEnDCkyOVl_dO9qHSsDjAj_sb1nK8T8EZOxBU",
+    "results": {
+      "role": "User",
+      "_id": "5bcc565c915d5d15e6378db3",
+      "email": "testuser@mailinator.com",
+      "createdAt": "2018-10-21T10:35:08.081Z",
+      "updatedAt": "2018-10-21T10:35:08.081Z",
+      "__v": 0
+    }
   }
-}
-
  * @apiUse MissingParamsError
  */
 module.exports.signUp = async (req, res) => {
@@ -57,24 +55,23 @@ module.exports.signUp = async (req, res) => {
  * @apiDescription Log in User
  * @apiGroup User
  *
- * @apiParam {String} email User email
- * @apiParam {String} password User password
- * 
+ * @apiParam (body) {String} email User email
+ * @apiParam (body) {String} password User password
+ *
  * @apiSuccessExample Success-Response:
  HTTP/1.1 200 OK
- {
-  "message": "Successfully signed in",
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmNjNTY1YzkxNWQ1ZDE1ZTYzNzhkYjMiLCJpYXQiOjE1NDAxMTgxNDQsImV4cCI6MTU0MDE2MTM0NH0.6D2TGeH6K8I0HeGkbw8v4q7xDWrhU1b3aNvEMW6knvI",
-  "results": {
-    "_id": "5bcc565c915d5d15e6378db3",
-    "role": "User",
-    "email": "testuser@mailinator.com",
-    "createdAt": "2018-10-21T10:35:08.081Z",
-    "updatedAt": "2018-10-21T10:35:08.081Z",
-    "__v": 0
+  {
+    "message": "Successfully signed in",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmNjNTY1YzkxNWQ1ZDE1ZTYzNzhkYjMiLCJpYXQiOjE1NDAxMTgxNDQsImV4cCI6MTU0MDE2MTM0NH0.6D2TGeH6K8I0HeGkbw8v4q7xDWrhU1b3aNvEMW6knvI",
+    "results": {
+      "_id": "5bcc565c915d5d15e6378db3",
+      "role": "User",
+      "email": "testuser@mailinator.com",
+      "createdAt": "2018-10-21T10:35:08.081Z",
+      "updatedAt": "2018-10-21T10:35:08.081Z",
+      "__v": 0
+    }
   }
-}
-
  * @apiUse MissingParamsError
  * @apiUse NotFound
  * @apiUse CredentialsError

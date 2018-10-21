@@ -7,7 +7,7 @@ const ContractSchema = new Schema({
   companyName: { type: String, required: true },
   yearlyPrice: { type: Number, required: true },
   content: String,
-  canceled: { type: Boolean, default: false },
+  cancelled: { type: Boolean, default: false },
   createdBy: { type: Schema.Types.ObjectId, ref: 'User' },
 }, { timestamps: true });
 

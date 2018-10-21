@@ -7,7 +7,7 @@ const { addContract } = require('../helpers/contractHelper');
 const { Contract } = require('../../models');
 
 describe('Edit contract', () => {
-  it('PUT /contract/:id Should return forbidden', (done) => {
+  it('PUT /contracts/:id Should return forbidden', (done) => {
     Promise.all([
       addUser(),
       addContract(),
@@ -30,7 +30,7 @@ describe('Edit contract', () => {
       .catch(done);
   });
 
-  it('PUT /contract/:id Should sucessfully update contract as a User', (done) => {
+  it('PUT /contracts/:id Should sucessfully update contract as a User', (done) => {
     addUser()
       .then((user) => {
         addContract({ createdBy: user.results._id })
@@ -52,7 +52,7 @@ describe('Edit contract', () => {
                     updatedContract.title.should.equal(body.title);
                     updatedContract.companyName.should.equal(contract.companyName);
                     updatedContract.yearlyPrice.should.equal(contract.yearlyPrice);
-                    updatedContract.canceled.should.equal(false);
+                    updatedContract.cancelled.should.equal(false);
                     updatedContract.createdBy.toString().should.equal(user.results._id.toString());
                     done();
                   });

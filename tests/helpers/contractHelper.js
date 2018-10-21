@@ -27,6 +27,30 @@ async function addContract(
   return contract;
 }
 
+
+/**
+ * @param {Number} numberOfContracts Number of contracts needed
+ * @returns {Promise} returns an array of contracts
+ */
+
+function addManyContracts(
+  {
+    numberOfContracts = faker.random.number({ min: 10, max: 20 }),
+    createdBy = new Object(),
+  } = {}) {
+  const data = [];
+  for (let i = 0; i < numberOfContracts; i += 1) {
+    data.push({
+      title: faker.lorem.words(),
+      companyName: faker.lorem.word(),
+      yearlyPrice: faker.random.number(),
+      createdBy,
+    });
+  }
+  return Contract.insertMany(data);
+}
+
 module.exports = {
   addContract,
+  addManyContracts,
 };

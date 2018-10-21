@@ -47,7 +47,7 @@ describe('Add contract', () => {
             results.title.should.equal(body.title);
             results.companyName.should.equal(body.companyName);
             results.yearlyPrice.should.equal(body.yearlyPrice);
-            results.canceled.should.equal(false);
+            results.cancelled.should.equal(false);
             done();
           });
       })
