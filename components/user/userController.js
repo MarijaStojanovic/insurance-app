@@ -106,3 +106,50 @@ module.exports.signIn = async (req, res) => {
     results: user,
   });
 };
+
+/**
+ * @api {post} /change-password Change password
+ * @apiVersion 1.0.0
+ * @apiName changePassword
+ * @apiDescription Changing password for logged in user
+ * @apiGroup User
+ *
+ * @apiParam {String} oldPassword User's old password
+ * @apiParam {String} newPassword User's new password to set to
+ *
+ * @apiSuccessExample Success-Response:
+ HTTP/1.1 200 OK
+ {
+   "message": "Password successfully updated"
+ }
+ * @apiUse MissingParamsError
+ * @apiUse CredentialsError
+ */
+module.exports.changePassword = async (req, res) => {
+  const { oldPassword, newPassword } = req.body;
+  const { _id } = req.user;
+
+  if (!oldPassword || !newPassword) {
+    throw new Error(error.MISSING_PARAMETERS);
+  }
+
+  const user = await User
+    .findOne(
+      { _id },
+      { password: 1 })
+    .lean();
+
+  if (!bcrypt.compareSync(oldPassword, user.password)) {
+    throw new Error(error.CREDENTIALS_ERROR);
+  }
+
+  const password = bcrypt.hashSync(newPassword, 10);
+  await User
+    .updateOne(
+      { _id },
+      { $set: { password } });
+
+  return res.status(200).send({
+    message: 'Password successfully updated',
+  });
+};
