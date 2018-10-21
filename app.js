@@ -37,6 +37,8 @@ app.use(lusca.xssProtection(true));
 // Whitelisted routes
 app.use(expressJwt({ secret: environments.JWT_SECRET }).unless({
   path: [
+    '/api/v1/signin',
+    '/api/v1/signup',
   ],
 }));
 
@@ -74,7 +76,7 @@ process.on('SIGINT', () => {
   });
 });
 
-// app.use('/api/v1', UserRoutes);
+app.use('/api/v1', UserRoutes);
 
 if (environments.NODE_ENV === 'development') {
   require('./scripts/createDocs');

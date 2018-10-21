@@ -46,6 +46,10 @@ ___
 - eslint-config-airbnb-base
 - eslint-plugin-import
 - eslint-plugin-jasmine
+- faker - easy generation of fake data
+- mocha - testing tool
+- supertest - testing tool
+- chai - testing tool
 
 ## Configuration
 
