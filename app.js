@@ -5,7 +5,6 @@ const expressJwt = require('express-jwt');
 const mongoose = require('mongoose');
 const lusca = require('lusca');
 const ErrorHandler = require('./middlewares/errorHandling/errorHandler');
-const mongoDB = require('./config/database/mongodb/connection');
 const environments = require('./config/environments');
 const { name } = require('./package.json');
 const mongoSanitize = require('express-mongo-sanitize');
@@ -46,12 +45,12 @@ app.use(expressJwt({ secret: environments.JWT_SECRET }).unless({
 
 // Create the database connection
 /* eslint-disable no-console */
-mongoose.connect(mongoDB.connectionString(), {
+mongoose.connect(process.env.DB_URL, {
   reconnectTries: Number.MAX_VALUE,
 });
 
 mongoose.connection.on('connected', () => {
-  console.log(`Mongoose default connection open to ${mongoDB.connectionString()}`);
+  console.log(`Mongoose default connection open to ${process.env.DB_URL}`);
 });
 
 // CONNECTION EVENTS
