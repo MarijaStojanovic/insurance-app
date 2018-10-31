@@ -76,7 +76,7 @@ module.exports = () => (err, req, res, next) => {
     error.stack = err.stack;
   }
 
-  return res
+  return next(res
     .status(error.status)
-    .send(error);
+    .send(error));
 };

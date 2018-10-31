@@ -19,6 +19,8 @@ const UserSchema = new Schema({
   role: { type: String, required: true, enum: roleTypes, default: 'User' },
 }, { timestamps: true });
 
+// Can not use arrow function, because this.password needs to work
+// eslint-disable-next-line func-names
 UserSchema.pre('save', function (next) {
   this.password = bcrypt.hashSync(this.password, 10);
   next();

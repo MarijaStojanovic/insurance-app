@@ -8,6 +8,7 @@
     "npm": ">= 5.0.0"
   },
   "scripts": {
+    "lint": "eslint tests components middlewares models scripts lib *.js",
     "test": "NODE_ENV=test mocha tests --timeout 5000 --recursive",
     "start": "NODE_ENV=development nodemon --ignore doc/ app.js",
     "prod": "NODE_ENV=production node app.js"

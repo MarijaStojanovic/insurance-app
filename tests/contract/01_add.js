@@ -1,6 +1,7 @@
+/*  global describe, it */
+require('chai').should();
 const app = require('../../app');
 const request = require('supertest');
-const should = require('chai').should();
 const faker = require('faker');
 const { addUser } = require('../helpers/userHelper');
 

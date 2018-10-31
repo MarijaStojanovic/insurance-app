@@ -1,3 +1,4 @@
+/*  global describe, it */
 const app = require('../../app');
 const request = require('supertest');
 const should = require('chai').should();

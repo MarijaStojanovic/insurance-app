@@ -36,7 +36,7 @@ async function addContract(
 function addManyContracts(
   {
     numberOfContracts = faker.random.number({ min: 10, max: 20 }),
-    createdBy = new Object(),
+    createdBy = {},
   } = {}) {
   const data = [];
   for (let i = 0; i < numberOfContracts; i += 1) {

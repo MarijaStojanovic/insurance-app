@@ -11,15 +11,14 @@ const runningDirectory = process.env.PWD;
 
 exec(removePreviousDocs, (removeError) => {
   if (removeError) {
-    console.error(`Remove documentation error: ${removeError}`);
     process.exit(1);
   }
   if (NODE_ENV === 'development') {
     exec(generateDocs, (genDocError) => {
       if (genDocError) {
-        console.error(`Generate documentation error: ${genDocError}`);
         process.exit(1);
       }
+      // eslint-disable-next-line no-console
       console.log(`Apidoc generated at ${runningDirectory}/doc`);
     });
   }

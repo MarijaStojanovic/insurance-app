@@ -1,3 +1,4 @@
+/*  global before, after */
 const mongoose = require('mongoose');
 
 before((done) => {
@@ -10,7 +11,6 @@ before((done) => {
 
 after((done) => {
   mongoose.connection.db.dropDatabase(() => {
-    console.log('MongoDB collections dropped');
     mongoose.disconnect();
     done();
   });

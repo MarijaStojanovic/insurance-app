@@ -1,7 +1,8 @@
+/*  global describe, it */
+
+require('chai').should();
 const app = require('../../app');
 const request = require('supertest');
-const should = require('chai').should();
-const faker = require('faker');
 const { addUser } = require('../helpers/userHelper');
 const { addContract } = require('../helpers/contractHelper');
 
@@ -11,17 +12,15 @@ describe('Get one contract', () => {
       addUser(),
       addContract(),
     ])
-      .then(([user, contract]) => {
-        return request(app)
-          .get(`/api/v1/contracts/${contract._id}`)
-          .set('Accept', 'application/json')
-          .set('Authorization', `Bearer ${user.token}`)
-          .expect(404)
-          .then(({ body: { message } }) => {
-            message.should.equal('Not Found');
-            done();
-          });
-      })
+      .then(([user, contract]) => request(app)
+        .get(`/api/v1/contracts/${contract._id}`)
+        .set('Accept', 'application/json')
+        .set('Authorization', `Bearer ${user.token}`)
+        .expect(404)
+        .then(({ body: { message } }) => {
+          message.should.equal('Not Found');
+          done();
+        }))
       .catch(done);
   });
 
@@ -29,19 +28,17 @@ describe('Get one contract', () => {
     addUser()
       .then((user) => {
         addContract({ createdBy: user.results._id })
-          .then((contract) => {
-            return request(app)
-              .get(`/api/v1/contracts/${contract._id}`)
-              .set('Accept', 'application/json')
-              .set('Authorization', `Bearer ${user.token}`)
-              .expect(200)
-              .then(({ body: { message, results } }) => {
-                message.should.equal('Contract successfully returned');
-                results.yearlyPrice.should.equal(contract.yearlyPrice);
-                results.title.should.equal(contract.title);
-                done();
-              });
-          });
+          .then(contract => request(app)
+            .get(`/api/v1/contracts/${contract._id}`)
+            .set('Accept', 'application/json')
+            .set('Authorization', `Bearer ${user.token}`)
+            .expect(200)
+            .then(({ body: { message, results } }) => {
+              message.should.equal('Contract successfully returned');
+              results.yearlyPrice.should.equal(contract.yearlyPrice);
+              results.title.should.equal(contract.title);
+              done();
+            }));
       })
       .catch(done);
   });

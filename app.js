@@ -45,6 +45,7 @@ app.use(expressJwt({ secret: environments.JWT_SECRET }).unless({
 
 
 // Create the database connection
+/* eslint-disable no-console */
 mongoose.connect(mongoDB.connectionString(), {
   reconnectTries: Number.MAX_VALUE,
 });
@@ -81,6 +82,7 @@ app.use('/api/v1', UserRoutes);
 app.use('/api/v1', ContractRoutes);
 
 if (environments.NODE_ENV === 'development') {
+  // eslint-disable-next-line global-require
   require('./scripts/createDocs');
   app.use('/apidoc', express.static(path.join(__dirname, './doc')));
 }
@@ -94,6 +96,7 @@ console.log(`Starting on port: ${port}`);
 console.log(`Env: ${environments.NODE_ENV}`);
 console.log(`App url: ${appURL}`);
 console.log('______________________________');
+/* eslint-enable no-console */
 
 app.listen(port);
 module.exports = app;
