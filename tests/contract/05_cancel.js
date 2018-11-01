@@ -32,16 +32,13 @@ describe('Cancel contract', () => {
             .patch(`/api/v1/contracts/${contract._id}`)
             .set('Accept', 'application/json')
             .set('Authorization', `Bearer ${user.token}`)
-            .expect(200)
-            .then(({ body: { message } }) => {
-              message.should.equal('Contract successfully cancelled');
-              return Contract.findById({ _id: contract._id })
-                .then((updatedContract) => {
-                  updatedContract.cancelled.should.equal(true);
-                  updatedContract.createdBy.toString().should.equal(user.results._id.toString());
-                  done();
-                });
-            }));
+            .expect(204)
+            .then(() => Contract.findById({ _id: contract._id })
+              .then((updatedContract) => {
+                updatedContract.cancelled.should.equal(true);
+                updatedContract.createdBy.toString().should.equal(user.results._id.toString());
+                done();
+              })));
       })
       .catch(done);
   });

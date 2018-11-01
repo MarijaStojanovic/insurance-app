@@ -18,20 +18,36 @@ describe('Signup', () => {
       .catch(done);
   });
 
+  it('POST /signup Should return an error if email does not valid', (done) => {
+    const user = {
+      email: faker.lorem.word(),
+      password: faker.internet.password(),
+    };
+    request(app)
+      .post('/api/v1/signup')
+      .set('Accept', 'application/json')
+      .send(user)
+      .expect(400)
+      .then(({ body: { message } }) => {
+        message.should.equal('Please fill a valid email address');
+        done();
+      })
+      .catch(done);
+  });
+
   it('POST /signup Should successfully register user', (done) => {
-    const body = {
+    const user = {
       email: faker.internet.email().toLowerCase(),
       password: faker.internet.password(),
     };
     request(app)
       .post('/api/v1/signup')
       .set('Accept', 'application/json')
-      .send(body)
+      .send(user)
       .expect(201)
-      .then(({ body: { message, results } }) => {
-        message.should.equal('Successfully signed up');
-        results.email.should.equal(body.email);
-        should.not.exist(results.password);
+      .then(({ body }) => {
+        body.email.should.equal(body.email);
+        should.not.exist(body.password);
         done();
       })
       .catch(done);

@@ -10,8 +10,9 @@ const { name } = require('./package.json');
 const mongoSanitize = require('express-mongo-sanitize');
 const path = require('path');
 
+const routePrefix = '/api/v1';
 const port = environments.PORT;
-const appURL = `http://localhost:${port}/api/v1/`;
+const appURL = `http://localhost:${port}${routePrefix}/`;
 mongoose.Promise = global.Promise;
 
 const app = express();
@@ -37,8 +38,8 @@ app.use(lusca.xssProtection(true));
 // Whitelisted routes
 app.use(expressJwt({ secret: environments.JWT_SECRET }).unless({
   path: [
-    '/api/v1/signin',
-    '/api/v1/signup',
+    `${routePrefix}/signin`,
+    `${routePrefix}/signup`,
   ],
 }));
 

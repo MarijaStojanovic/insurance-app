@@ -7,16 +7,17 @@ const { Types: { ObjectId } } = require('mongoose');
  * @param {String} title Contract title
  * @param {String} companyName Contract companyName
  * @param {String} yearlyPrice Contract yearlyPrice
+ * @param {String} createdBy Person who creates contract
  * @returns {Promise} returns new Contract
  */
 
-async function addContract(
+const addContract = async (
   {
     title = faker.internet.userName(),
     companyName = faker.lorem.word(),
     yearlyPrice = faker.random.number(),
     createdBy = new ObjectId(),
-  } = {}) {
+  } = {}) => {
   const contract = await new Contract({
     title,
     companyName,
@@ -25,19 +26,20 @@ async function addContract(
   }).save();
 
   return contract;
-}
+};
 
 
 /**
  * @param {Number} numberOfContracts Number of contracts needed
+ * @param {String} createdBy Person who creates contract
  * @returns {Promise} returns an array of contracts
  */
 
-function addManyContracts(
+const addManyContracts = (
   {
     numberOfContracts = faker.random.number({ min: 10, max: 20 }),
-    createdBy = {},
-  } = {}) {
+    createdBy = new ObjectId(),
+  } = {}) => {
   const data = [];
   for (let i = 0; i < numberOfContracts; i += 1) {
     data.push({
@@ -48,7 +50,7 @@ function addManyContracts(
     });
   }
   return Contract.insertMany(data);
-}
+};
 
 module.exports = {
   addContract,

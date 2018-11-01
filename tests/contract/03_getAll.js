@@ -15,9 +15,8 @@ describe('Get all contracts', () => {
             .set('Accept', 'application/json')
             .set('Authorization', `Bearer ${user.token}`)
             .expect(200)
-            .then(({ body: { message, results } }) => {
-              message.should.equal('List of all contracts');
-              results.length.should.equal(contracts.length);
+            .then(({ body }) => {
+              body.length.should.equal(contracts.length);
               done();
             }));
       })

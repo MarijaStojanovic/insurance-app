@@ -8,11 +8,11 @@ const { issueNewToken } = require('../../lib/jwtHandler');
  * @returns {Promise} returns new User
  */
 
-async function addUser(
+const addUser = async (
   {
     email = faker.internet.email(),
     password = 'testpassword',
-  } = {}) {
+  } = {}) => {
   const user = await new User({
     email,
     password,
@@ -27,7 +27,7 @@ async function addUser(
     }),
     results: user,
   };
-}
+};
 
 module.exports = {
   addUser,

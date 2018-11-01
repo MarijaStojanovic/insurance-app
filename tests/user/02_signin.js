@@ -17,10 +17,9 @@ describe('Sign in', () => {
         .set('Accept', 'application/json')
         .send(body)
         .expect(200)
-        .then(({ body: { message, results } }) => {
-          message.should.equal('Successfully signed in');
-          results.email.should.equal(body.email);
-          should.not.exist(results.password);
+        .then(({ body: result }) => {
+          result.email.should.equal(body.email);
+          should.not.exist(result.password);
           done();
         }))
       .catch(done);

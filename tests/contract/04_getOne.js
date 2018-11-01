@@ -33,10 +33,9 @@ describe('Get one contract', () => {
             .set('Accept', 'application/json')
             .set('Authorization', `Bearer ${user.token}`)
             .expect(200)
-            .then(({ body: { message, results } }) => {
-              message.should.equal('Contract successfully returned');
-              results.yearlyPrice.should.equal(contract.yearlyPrice);
-              results.title.should.equal(contract.title);
+            .then(({ body }) => {
+              body.yearlyPrice.should.equal(contract.yearlyPrice);
+              body.title.should.equal(contract.title);
               done();
             }));
       })

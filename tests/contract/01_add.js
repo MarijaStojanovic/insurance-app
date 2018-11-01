@@ -43,12 +43,11 @@ describe('Add contract', () => {
           .set('Authorization', `Bearer ${user.token}`)
           .send(body)
           .expect(201)
-          .then(({ body: { message, results } }) => {
-            message.should.equal('Successfully saved new contract');
-            results.title.should.equal(body.title);
-            results.companyName.should.equal(body.companyName);
-            results.yearlyPrice.should.equal(body.yearlyPrice);
-            results.cancelled.should.equal(false);
+          .then(({ body: result }) => {
+            result.title.should.equal(result.title);
+            result.companyName.should.equal(body.companyName);
+            result.yearlyPrice.should.equal(body.yearlyPrice);
+            result.cancelled.should.equal(false);
             done();
           });
       })

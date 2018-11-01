@@ -46,10 +46,9 @@ describe('Edit contract', () => {
               .set('Authorization', `Bearer ${user.token}`)
               .send(body)
               .expect(200)
-              .then(({ body: { message, results } }) => {
-                message.should.equal('Contract successfully updated');
-                results.title.should.equal(body.title);
-                return Contract.findById({ _id: results._id })
+              .then(({ body: result }) => {
+                result.title.should.equal(body.title);
+                return Contract.findById({ _id: result._id })
                   .then((updatedContract) => {
                     updatedContract.title.should.equal(body.title);
                     updatedContract.companyName.should.equal(contract.companyName);

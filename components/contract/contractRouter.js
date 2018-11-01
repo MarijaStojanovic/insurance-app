@@ -6,10 +6,11 @@ const { permissionAccess } = require('../../middlewares/permissionAccess');
 const router = express.Router();
 
 router
-  .post('/contracts', permissionAccess('User'), catchAsyncError(ContractController.addContract))
-  .get('/contracts', permissionAccess('User'), catchAsyncError(ContractController.allContracts))
-  .patch('/contracts/:id', permissionAccess('User'), catchAsyncError(ContractController.cancelContract))
-  .get('/contracts/:id', permissionAccess('User'), catchAsyncError(ContractController.oneContract))
-  .put('/contracts/:id', permissionAccess('User'), catchAsyncError(ContractController.editContract));
+  .use(permissionAccess('User'))
+  .post('/contracts', catchAsyncError(ContractController.addContract))
+  .get('/contracts', catchAsyncError(ContractController.allContracts))
+  .patch('/contracts/:id', catchAsyncError(ContractController.cancelContract))
+  .get('/contracts/:id', catchAsyncError(ContractController.oneContract))
+  .put('/contracts/:id', catchAsyncError(ContractController.editContract));
 
 module.exports = router;

@@ -15,18 +15,15 @@ const error = require('../../middlewares/errorHandling/errorConstants');
  * @apiSuccessExample Success-Response:
  HTTP/1.1 200 OK
   {
-    "message": "Successfully saved new contract",
-    "results": {
-      "cancelled": false,
-      "_id": "5bccbc60ae14fc1f4178d8ba",
-      "title": "This is a contract title",
-      "companyName": "HolyCode",
-      "yearlyPrice": 2000,
-      "createdBy": "5bcc565c915d5d15e6378db3",
-      "createdAt": "2018-10-21T17:50:24.489Z",
-      "updatedAt": "2018-10-21T17:50:24.489Z",
-      "__v": 0
-    }
+    "cancelled": false,
+    "_id": "5bccbc60ae14fc1f4178d8ba",
+    "title": "This is a contract title",
+    "companyName": "HolyCode",
+    "yearlyPrice": 2000,
+    "createdBy": "5bcc565c915d5d15e6378db3",
+    "createdAt": "2018-10-21T17:50:24.489Z",
+    "updatedAt": "2018-10-21T17:50:24.489Z",
+    "__v": 0
   }
  * @apiUse MissingParamsError
  */
@@ -38,10 +35,7 @@ module.exports.addContract = async (req, res) => {
   }
   const contract = await new Contract({ title, companyName, yearlyPrice, createdBy: req.user._id }).save();
 
-  return res.status(201).send({
-    message: 'Successfully saved new contract',
-    results: contract,
-  });
+  return res.status(201).send(contract);
 };
 
 /**
@@ -59,18 +53,15 @@ module.exports.addContract = async (req, res) => {
  * @apiSuccessExample Success-Response:
  HTTP/1.1 200 OK
   {
-    "message": "Contract successfully updated",
-    "results": {
-      "cancelled": false,
-      "_id": "5bccbc60ae14fc1f4178d8ba",
-      "title": "This is a new title",
-      "companyName": "HolyCode",
-      "yearlyPrice": 2000,
-      "createdBy": "5bcc565c915d5d15e6378db3",
-      "createdAt": "2018-10-21T17:50:24.489Z",
-      "updatedAt": "2018-10-21T17:51:02.445Z",
-      "__v": 0
-    }
+    "cancelled": false,
+    "_id": "5bccbc60ae14fc1f4178d8ba",
+    "title": "This is a new title",
+    "companyName": "HolyCode",
+    "yearlyPrice": 2000,
+    "createdBy": "5bcc565c915d5d15e6378db3",
+    "createdAt": "2018-10-21T17:50:24.489Z",
+    "updatedAt": "2018-10-21T17:51:02.445Z",
+    "__v": 0
   }
  * @apiUse MissingParamsError
  * @apiUse Forbidden
@@ -104,10 +95,7 @@ module.exports.editContract = async (req, res) => {
     throw new Error(error.FORBIDDEN);
   }
 
-  return res.status(200).send({
-    message: 'Contract successfully updated',
-    results,
-  });
+  return res.status(200).send(results);
 };
 
 /**
@@ -122,18 +110,15 @@ module.exports.editContract = async (req, res) => {
  * @apiSuccessExample Success-Response:
  HTTP/1.1 200 OK
   {
-    "message": "Contract successfully returned",
-    "results": {
-      "_id": "5bccbc60ae14fc1f4178d8ba",
-      "canceled": false,
-      "title": "This is a new title",
-      "companyName": "HolyCode",
-      "yearlyPrice": 2000,
-      "createdBy": "5bcc565c915d5d15e6378db3",
-      "createdAt": "2018-10-21T17:50:24.489Z",
-      "updatedAt": "2018-10-21T17:51:02.445Z",
-      "__v": 0
-    }
+    "_id": "5bccbc60ae14fc1f4178d8ba",
+    "canceled": false,
+    "title": "This is a new title",
+    "companyName": "HolyCode",
+    "yearlyPrice": 2000,
+    "createdBy": "5bcc565c915d5d15e6378db3",
+    "createdAt": "2018-10-21T17:50:24.489Z",
+    "updatedAt": "2018-10-21T17:51:02.445Z",
+    "__v": 0
   }
  * @apiUse NotFound
  */
@@ -148,10 +133,7 @@ module.exports.oneContract = async (req, res) => {
     throw new Error(error.NOT_FOUND);
   }
 
-  return res.status(200).send({
-    message: 'Contract successfully returned',
-    results: contract,
-  });
+  return res.status(200).send(contract);
 };
 
 /**
@@ -163,33 +145,30 @@ module.exports.oneContract = async (req, res) => {
  *
  * @apiSuccessExample Success-Response:
  HTTP/1.1 200 OK
-  {
-    "message": "List of all contracts",
-    "results": [
-      {
-        "_id": "5bccd4f0e821e225fb319a01",
-        "cancelled": false,
-        "title": "This is a second contract",
-        "companyName": "HolyCode",
-        "yearlyPrice": 1500,
-        "createdBy": "5bcc565c915d5d15e6378db3",
-        "createdAt": "2018-10-21T19:35:12.172Z",
-        "updatedAt": "2018-10-21T19:35:12.172Z",
-        "__v": 0
-      },
-      {
-        "_id": "5bccd54fe821e225fb319a03",
-        "cancelled": false,
-        "title": "This is a third contract",
-        "companyName": "HolyCode",
-        "yearlyPrice": 4000,
-        "createdBy": "5bcc565c915d5d15e6378db3",
-        "createdAt": "2018-10-21T19:36:47.347Z",
-        "updatedAt": "2018-10-21T19:36:47.347Z",
-        "__v": 0
-      }
-    ]
-  }
+  [
+    {
+      "_id": "5bccd4f0e821e225fb319a01",
+      "cancelled": false,
+      "title": "This is a second contract",
+      "companyName": "HolyCode",
+      "yearlyPrice": 1500,
+      "createdBy": "5bcc565c915d5d15e6378db3",
+      "createdAt": "2018-10-21T19:35:12.172Z",
+      "updatedAt": "2018-10-21T19:35:12.172Z",
+      "__v": 0
+    },
+    {
+      "_id": "5bccd54fe821e225fb319a03",
+      "cancelled": false,
+      "title": "This is a third contract",
+      "companyName": "HolyCode",
+      "yearlyPrice": 4000,
+      "createdBy": "5bcc565c915d5d15e6378db3",
+      "createdAt": "2018-10-21T19:36:47.347Z",
+      "updatedAt": "2018-10-21T19:36:47.347Z",
+      "__v": 0
+    }
+  ]
  */
 
 module.exports.allContracts = async (req, res) => {
@@ -197,10 +176,7 @@ module.exports.allContracts = async (req, res) => {
 
   const contracts = await Contract.find({ createdBy: _id, cancelled: false }).lean();
 
-  return res.status(200).send({
-    message: 'List of all contracts',
-    results: contracts,
-  });
+  return res.status(200).send(contracts);
 };
 
 /**
@@ -213,10 +189,8 @@ module.exports.allContracts = async (req, res) => {
  * @apiParam (params) {String} id Contract Mongo _id
  *
  * @apiSuccessExample Success-Response:
- HTTP/1.1 200 OK
-  {
-    "message": "Contract successfully cancelled"
-  }
+ HTTP/1.1 204 OK
+  {}
  * @apiUse Forbidden
  */
 
@@ -230,7 +204,5 @@ module.exports.cancelContract = async (req, res) => {
     throw new Error(error.FORBIDDEN);
   }
 
-  return res.status(200).send({
-    message: 'Contract successfully cancelled',
-  });
+  return res.status(204).send();
 };

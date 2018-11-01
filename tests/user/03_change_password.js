@@ -18,9 +18,8 @@ describe('Change password', () => {
           .set('Accept', 'application/json')
           .set('Authorization', `Bearer ${user.token}`)
           .send(body)
-          .expect(200)
-          .then(({ body: { message } }) => {
-            message.should.equal('Password successfully updated');
+          .expect(204)
+          .then(() => {
             // If password is successfully changed user should successfully sign in
             const bodySignin = {
               email: user.results.email,
@@ -32,9 +31,8 @@ describe('Change password', () => {
               .send(bodySignin)
               .expect(200)
               .then((res) => {
-                res.body.message.should.equal('Successfully signed in');
-                res.body.results.email.should.equal(user.results.email);
-                should.not.exist(res.body.results.password);
+                res.body.email.should.equal(user.results.email);
+                should.not.exist(res.body.password);
                 done();
               });
           });
