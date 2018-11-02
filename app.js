@@ -12,7 +12,7 @@ const path = require('path');
 
 const routePrefix = '/api/v1';
 const port = environments.PORT;
-const appURL = `http://localhost:${port}${routePrefix}/`;
+const appURL = `http://localhost:${port}${routePrefix}`;
 mongoose.Promise = global.Promise;
 
 const app = express();
@@ -40,6 +40,7 @@ app.use(expressJwt({ secret: environments.JWT_SECRET }).unless({
   path: [
     `${routePrefix}/signin`,
     `${routePrefix}/signup`,
+    /\/apidoc.+/,
   ],
 }));
 

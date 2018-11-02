@@ -1,6 +1,5 @@
 const { logError } = require('../../lib/misc');
 const errorMessage = require('./errorConstants');
-const environments = require('../../config/environments');
 
 module.exports = () => (err, req, res, next) => {
   const error = {};
@@ -70,10 +69,6 @@ module.exports = () => (err, req, res, next) => {
 
   if (error.status === 500) {
     logError(err);
-  }
-
-  if (environments.NODE_ENV === 'development') {
-    error.stack = err.stack;
   }
 
   return next(res

@@ -12,7 +12,7 @@ describe('Add contract', () => {
       password: faker.internet.password(),
     })
       .then((user) => {
-        request(app)
+        return request(app)
           .post('/api/v1/contracts')
           .set('Accept', 'application/json')
           .set('Authorization', `Bearer ${user.token}`)
@@ -37,7 +37,7 @@ describe('Add contract', () => {
           companyName: faker.lorem.word(),
           yearlyPrice: faker.random.number(),
         };
-        request(app)
+        return request(app)
           .post('/api/v1/contracts')
           .set('Accept', 'application/json')
           .set('Authorization', `Bearer ${user.token}`)

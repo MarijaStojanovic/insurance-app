@@ -35,7 +35,7 @@ describe('Edit contract', () => {
   it('PUT /contracts/:id Should sucessfully update contract as a User', (done) => {
     addUser()
       .then((user) => {
-        addContract({ createdBy: user.results._id })
+        return addContract({ createdBy: user.results._id })
           .then((contract) => {
             const body = {
               title: faker.lorem.word(),

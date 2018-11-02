@@ -18,14 +18,16 @@ const error = require('../../middlewares/errorHandling/errorConstants');
  HTTP/1.1 200 OK
   {
     "role": "User",
-    "_id": "5bcc565c915d5d15e6378db3",
-    "email": "testuser@mailinator.com",
-    "createdAt": "2018-10-21T10:35:08.081Z",
-    "updatedAt": "2018-10-21T10:35:08.081Z",
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmNjNTY1YzkxNWQ1ZDE1ZTYzNzhkYjMiLCJpYXQiOjE1NDAxMTgxMDgsImV4cCI6MTU0MDE2MTMwOH0.b-FZtkhEnDCkyOVl_dO9qHSsDjAj_sb1nK8T8EZOxBU",
-    "__v": 0
+    "_id": "5bdc2d9406bd261c7f2caf3e",
+    "email": "user@mailinator.com",
+    "createdAt": "2018-11-02T10:57:24.927Z",
+    "updatedAt": "2018-11-02T10:57:24.927Z",
+    "__v": 0,
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmRjMmQ5NDA2YmQyNjFjN2YyY2FmM2UiLCJpYXQiOjE1NDExNTYyNDUsImV4cCI6MTU0MTE5OTQ0NX0.IHodxVNrui7vlLCY3myUlglI0Y1NI_7Qmn7Sr1i-U-A"
   }
  * @apiUse MissingParamsError
+ * @apiUse ValidEmailError
+ * @apiUse DuplicateEmailError
  */
 module.exports.signUp = async (req, res) => {
   const { email, password } = req.body;
@@ -38,12 +40,22 @@ module.exports.signUp = async (req, res) => {
     throw new Error(error.INVALID_EMAIL);
   }
 
-  const user = await new User({ email, password }).save();
-  user.password = undefined;
+  const existUser = await User
+    .findOne({ email: email.toLowerCase() })
+    .lean();
+
+  if (existUser) {
+    throw new Error(error.DUPLICATE_EMAIL);
+  }
+
+  const newUser = await new User({ email, password }).save();
+  const user = newUser.toObject();
 
   user.token = issueNewToken({
     _id: user._id,
   });
+
+  delete user.password;
 
   return res.status(201).send(user);
 };
@@ -61,13 +73,13 @@ module.exports.signUp = async (req, res) => {
  * @apiSuccessExample Success-Response:
  HTTP/1.1 200 OK
   {
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmNjNTY1YzkxNWQ1ZDE1ZTYzNzhkYjMiLCJpYXQiOjE1NDAxMTgxNDQsImV4cCI6MTU0MDE2MTM0NH0.6D2TGeH6K8I0HeGkbw8v4q7xDWrhU1b3aNvEMW6knvI",
-    "_id": "5bcc565c915d5d15e6378db3",
+    "_id": "5bdc2d9406bd261c7f2caf3e",
     "role": "User",
-    "email": "testuser@mailinator.com",
-    "createdAt": "2018-10-21T10:35:08.081Z",
-    "updatedAt": "2018-10-21T10:35:08.081Z",
-    "__v": 0
+    "email": "user@mailinator.com",
+    "createdAt": "2018-11-02T10:57:24.927Z",
+    "updatedAt": "2018-11-02T10:57:24.927Z",
+    "__v": 0,
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmRjMmQ5NDA2YmQyNjFjN2YyY2FmM2UiLCJpYXQiOjE1NDExNTYzODgsImV4cCI6MTU0MTE5OTU4OH0.tFtqlYzmeympy1mSV0s1YORTDpeJ60j68MQvMwVnEVg"
   }
  * @apiUse MissingParamsError
  * @apiUse NotFound
@@ -114,7 +126,7 @@ module.exports.signIn = async (req, res) => {
  *
  * @apiSuccessExample Success-Response:
  HTTP/1.1 204 OK
- {}
+
  * @apiUse MissingParamsError
  * @apiUse CredentialsError
  */

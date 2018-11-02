@@ -26,19 +26,17 @@ describe('Get one contract', () => {
 
   it('GET /contracts/:id Should sucessfully return one contract', (done) => {
     addUser()
-      .then((user) => {
-        addContract({ createdBy: user.results._id })
-          .then(contract => request(app)
-            .get(`/api/v1/contracts/${contract._id}`)
-            .set('Accept', 'application/json')
-            .set('Authorization', `Bearer ${user.token}`)
-            .expect(200)
-            .then(({ body }) => {
-              body.yearlyPrice.should.equal(contract.yearlyPrice);
-              body.title.should.equal(contract.title);
-              done();
-            }));
-      })
+      .then(user => addContract({ createdBy: user.results._id })
+        .then(contract => request(app)
+          .get(`/api/v1/contracts/${contract._id}`)
+          .set('Accept', 'application/json')
+          .set('Authorization', `Bearer ${user.token}`)
+          .expect(200)
+          .then(({ body }) => {
+            body.yearlyPrice.should.equal(contract.yearlyPrice);
+            body.title.should.equal(contract.title);
+            done();
+          })))
       .catch(done);
   });
 });

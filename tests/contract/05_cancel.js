@@ -26,20 +26,18 @@ describe('Cancel contract', () => {
 
   it('PATCH /contracts/:id Should sucessfully cancelled contract as a User', (done) => {
     addUser()
-      .then((user) => {
-        addManyContracts({ createdBy: user.results._id })
-          .then(([contract]) => request(app)
-            .patch(`/api/v1/contracts/${contract._id}`)
-            .set('Accept', 'application/json')
-            .set('Authorization', `Bearer ${user.token}`)
-            .expect(204)
-            .then(() => Contract.findById({ _id: contract._id })
-              .then((updatedContract) => {
-                updatedContract.cancelled.should.equal(true);
-                updatedContract.createdBy.toString().should.equal(user.results._id.toString());
-                done();
-              })));
-      })
+      .then(user => addManyContracts({ createdBy: user.results._id })
+        .then(([contract]) => request(app)
+          .patch(`/api/v1/contracts/${contract._id}`)
+          .set('Accept', 'application/json')
+          .set('Authorization', `Bearer ${user.token}`)
+          .expect(204)
+          .then(() => Contract.findById({ _id: contract._id })
+            .then((updatedContract) => {
+              updatedContract.cancelled.should.equal(true);
+              updatedContract.createdBy.toString().should.equal(user.results._id.toString());
+              done();
+            }))))
       .catch(done);
   });
 });

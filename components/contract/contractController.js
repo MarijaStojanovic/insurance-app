@@ -143,9 +143,13 @@ module.exports.oneContract = async (req, res) => {
  * @apiDescription Get all contracts
  * @apiGroup Contract
  *
+ *  @apiParam (query) {Number} skip Number of Contracts to Skip
+ *  @apiParam (query) {Number} limit=50 Number of Contracts to Display
+ *
  * @apiSuccessExample Success-Response:
  HTTP/1.1 200 OK
-  [
+ {
+  contracts: [
     {
       "_id": "5bccd4f0e821e225fb319a01",
       "cancelled": false,
@@ -168,15 +172,32 @@ module.exports.oneContract = async (req, res) => {
       "updatedAt": "2018-10-21T19:36:47.347Z",
       "__v": 0
     }
-  ]
+  ],
+  count: 114
+ }
+ * @apiUse InvalidValue
  */
 
 module.exports.allContracts = async (req, res) => {
   const { _id } = req.user;
+  const { skip = 0, limit = 50 } = req.query;
 
-  const contracts = await Contract.find({ createdBy: _id, cancelled: false }).lean();
+  if (!Number.isInteger(parseInt(skip, 10))
+    || !Number.isInteger(parseInt(limit, 10))) {
+    throw new Error(error.INVALID_VALUE);
+  }
 
-  return res.status(200).send(contracts);
+  const [contracts, count] = await Promise.all([
+    Contract
+      .find({ createdBy: _id, cancelled: false })
+      .skip(parseInt(skip, 10))
+      .limit(parseInt(limit, 10))
+      .lean(),
+    Contract
+      .count({ createdBy: _id, cancelled: false }),
+  ]);
+
+  return res.status(200).send({ contracts, count });
 };
 
 /**
