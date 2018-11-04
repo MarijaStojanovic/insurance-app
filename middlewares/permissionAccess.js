@@ -1,6 +1,7 @@
 const { User } = require('./../models');
 const { isValidId } = require('../lib/misc');
 const error = require('../middlewares/errorHandling/errorConstants');
+const { ADMIN, USER } = require('../config/constants');
 
 /**
  * Ensure that requested User has proper permissions
@@ -26,12 +27,12 @@ module.exports.permissionAccess = (...roles) => async (req, res, next) => {
       throw new Error(error.NOT_FOUND);
     }
 
-    if (roles.includes('User') && user.role === 'User') {
-      userRoles.push('User');
+    if (roles.includes(USER) && user.role === USER) {
+      userRoles.push(USER);
     }
 
-    if (roles.includes('Admin') && user.role === 'Admin') {
-      userRoles.push('Admin');
+    if (roles.includes(ADMIN) && user.role === ADMIN) {
+      userRoles.push(ADMIN);
     }
 
     // Check if User has any of the required roles

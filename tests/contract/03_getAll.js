@@ -1,11 +1,17 @@
-/*  global describe, it */
+/*  global describe, it,beforeEach */
 require('chai').should();
 const app = require('../../app');
 const request = require('supertest');
+const mongoose = require('mongoose');
 const { addUser } = require('../helpers/userHelper');
 const { addManyContracts } = require('../helpers/contractHelper');
 
 describe('Get all contracts', () => {
+  beforeEach((done) => {
+    mongoose.connection.db.dropDatabase(() => {
+      done();
+    });
+  });
   it('GET /contracts/ Should sucessfully returns all contracts', (done) => {
     addUser()
       .then(user => addManyContracts({ createdBy: user.results._id })

@@ -5,14 +5,14 @@ const expressJwt = require('express-jwt');
 const mongoose = require('mongoose');
 const lusca = require('lusca');
 const ErrorHandler = require('./middlewares/errorHandling/errorHandler');
+const { ROUTE_PREFIX } = require('./config/constants');
 const environments = require('./config/environments');
 const { name } = require('./package.json');
 const mongoSanitize = require('express-mongo-sanitize');
 const path = require('path');
 
-const routePrefix = '/api/v1';
 const port = environments.PORT;
-const appURL = `http://localhost:${port}${routePrefix}`;
+const appURL = `http://localhost:${port}${ROUTE_PREFIX}`;
 mongoose.Promise = global.Promise;
 
 const app = express();
@@ -38,8 +38,8 @@ app.use(lusca.xssProtection(true));
 // Whitelisted routes
 app.use(expressJwt({ secret: environments.JWT_SECRET }).unless({
   path: [
-    `${routePrefix}/signin`,
-    `${routePrefix}/signup`,
+    `${ROUTE_PREFIX}/signin`,
+    `${ROUTE_PREFIX}/signup`,
     /\/apidoc.+/,
   ],
 }));
@@ -49,6 +49,8 @@ app.use(expressJwt({ secret: environments.JWT_SECRET }).unless({
 /* eslint-disable no-console */
 mongoose.connect(process.env.DB_URL, {
   reconnectTries: Number.MAX_VALUE,
+  useCreateIndex: true,
+  useNewUrlParser: true,
 });
 
 mongoose.connection.on('connected', () => {

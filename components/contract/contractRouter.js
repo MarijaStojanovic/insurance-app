@@ -2,11 +2,12 @@ const express = require('express');
 const ContractController = require('./contractController');
 const { catchAsyncError } = require('../../lib/functionErrorHandler');
 const { permissionAccess } = require('../../middlewares/permissionAccess');
+const { USER } = require('../../config/constants');
 
 const router = express.Router();
 
 router
-  .use(permissionAccess('User'))
+  .use(permissionAccess(USER))
   .post('/contracts', catchAsyncError(ContractController.addContract))
   .get('/contracts', catchAsyncError(ContractController.allContracts))
   .patch('/contracts/:id', catchAsyncError(ContractController.cancelContract))

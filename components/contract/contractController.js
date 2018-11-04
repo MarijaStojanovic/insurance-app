@@ -194,7 +194,7 @@ module.exports.allContracts = async (req, res) => {
       .limit(parseInt(limit, 10))
       .lean(),
     Contract
-      .count({ createdBy: _id, cancelled: false }),
+      .estimatedDocumentCount({ createdBy: _id, cancelled: false }),
   ]);
 
   return res.status(200).send({ contracts, count });

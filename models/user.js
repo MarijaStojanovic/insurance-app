@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const { emailRegExp } = require('../lib/misc');
+const { ADMIN, USER } = require('../config/constants');
 
 const Schema = mongoose.Schema;
 
-const roleTypes = ['Admin', 'User'];
+const roleTypes = [ADMIN, USER];
 
 const UserSchema = new Schema({
   email: {
